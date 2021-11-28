@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update(){
         KeyMovement();
+        MouseMovement();
     }
     
     void KeyMovement(){
