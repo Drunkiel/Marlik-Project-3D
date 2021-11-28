@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class PlayerMovement : MonoBehaviour
 {
     public float Speed;
+    private bool KeyMove;
 
     public Camera Cam;
     public NavMeshAgent Agent;
@@ -18,12 +19,17 @@ public class PlayerMovement : MonoBehaviour
 
     void Update(){
         KeyMovement();
-        MouseMovement();
+        if(!KeyMove){
+            MouseMovement();
+        }
     }
     
     void KeyMovement(){
-        //Extra gravity
-        // rgBody.AddForce(Vector3.down * Time.deltaTime * 1000);
+        if(rgBody.velocity.magnitude > 0){
+            KeyMove = true;
+        }   else{
+            KeyMove = false;
+        }
 
         //Inicjalizing inputs
         float Horizontal = Input.GetAxis("Horizontal");
