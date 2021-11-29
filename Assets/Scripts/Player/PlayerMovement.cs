@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class PlayerMovement : MonoBehaviour
 {
     public float Speed;
-    private bool KeyMove;
+    public bool KeyMove;
 
     public Camera Cam;
     public NavMeshAgent Agent;
@@ -18,18 +18,11 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void Update(){
-        KeyMovement();
-        if(!KeyMove){
-            MouseMovement();
-        }
+        // KeyMovement();
+        MouseMovement();
     }
     
     void KeyMovement(){
-        if(rgBody.velocity.magnitude > 0){
-            KeyMove = true;
-        }   else{
-            KeyMove = false;
-        }
 
         //Inicjalizing inputs
         float Horizontal = Input.GetAxis("Horizontal");
@@ -55,8 +48,8 @@ public class PlayerMovement : MonoBehaviour
             Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if(Physics.Raycast(ray, out hit)){
-                print(hit.point);
+            if(Physics.Raycast(ray, out hit) || !KeyMove){
+                
                 Agent.SetDestination(hit.point);
             }
         }
