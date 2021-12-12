@@ -14,6 +14,8 @@
 Assets/[Ss]ettings/
 Assets/[Tt]hird[Pp]arty/
 Assets/[Ss]cenes
+Assets/[Aa]nimations
+Assets/[Pp]refabs
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -54,6 +56,7 @@ ExportedObj/
 *.meta
 *.asset
 *.vscode
+*.fbx
 
 # Unity3D generated meta files
 *.pidb.meta

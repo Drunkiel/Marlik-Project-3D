@@ -5,7 +5,7 @@ public class CameraController : MonoBehaviour
     public GameObject Player;
     public Camera Cam;
 
-    public float Xplus, Yplus, Zplus;
+    public int Max_FieldOfView, Min_FieldOfView;
     private Vector3 currVelocity;
 
     Vector3 previousPosition;
@@ -21,6 +21,7 @@ public class CameraController : MonoBehaviour
     {
         MoveCamera();
         RotateCamera();
+        // ScrollCamera();
     }
 
     void MoveCamera(){
@@ -28,6 +29,7 @@ public class CameraController : MonoBehaviour
         Cam.transform.position = Player.transform.position;
         Cam.transform.Translate(new Vector3(0, 2, -20)); 
     }
+    
     void RotateCamera(){
 
         if(Input.GetMouseButtonDown(1)){
@@ -43,5 +45,22 @@ public class CameraController : MonoBehaviour
 
             previousPosition = Cam.ScreenToViewportPoint(Input.mousePosition);
         }
+    }
+
+    void ScrollCamera(){
+        
+        if(Cam.fieldOfView != Max_FieldOfView || Cam.fieldOfView != Min_FieldOfView){
+
+            Cam.fieldOfView += Input.mouseScrollDelta.y;
+
+        }   else if(Cam.fieldOfView >= Max_FieldOfView){
+
+            Cam.fieldOfView = Max_FieldOfView;
+
+        }   else if(Cam.fieldOfView <= Min_FieldOfView){
+
+            Cam.fieldOfView = Min_FieldOfView;
+        }
+
     }
 }
