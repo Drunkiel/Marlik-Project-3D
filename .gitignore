@@ -53,6 +53,13 @@ ExportedObj/
 *.VC.db
 *.meta
 *.asset
+*.fbx
+*anim
+*.png
+*.jpg
+*.jpeg
+*.controller
+*.prefab
 
 # Unity3D generated meta files
 *.pidb.meta
