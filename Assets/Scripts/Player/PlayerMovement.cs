@@ -5,24 +5,25 @@ using UnityEngine.AI;
 public class PlayerMovement : MonoBehaviour
 {
     public float Speed;
+    public bool KeyMove;
 
     public Camera Cam;
     public NavMeshAgent Agent;
 
     Rigidbody rgBody;
+    Animator anim;
 
     void Start(){
-
+        anim = GetComponent<Animator> ();
         rgBody = GetComponent<Rigidbody> ();
     }
 
     void Update(){
-        KeyMovement();
+        // KeyMovement();
+        MouseMovement();
     }
     
     void KeyMovement(){
-        //Extra gravity
-        // rgBody.AddForce(Vector3.down * Time.deltaTime * 1000);
 
         //Inicjalizing inputs
         float Horizontal = Input.GetAxis("Horizontal");
@@ -34,6 +35,11 @@ public class PlayerMovement : MonoBehaviour
 
         rgBody.velocity = new Vector3(Direction.x * Speed * Time.deltaTime, 0, Direction.z * Speed * Time.deltaTime);
 
+        //Animation
+        anim.SetFloat("Speed", Mathf.Abs(Horizontal));
+        anim.SetFloat("Speed", Mathf.Abs(Vertical));
+
+        //Player rotation
         if(Direction != Vector3.zero){
 
             Quaternion toRotation = Quaternion.LookRotation(Direction, Vector3.up);
@@ -44,14 +50,20 @@ public class PlayerMovement : MonoBehaviour
 
     void MouseMovement(){
         if(Input.GetMouseButtonDown(0)){
-
+            
             Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if(Physics.Raycast(ray, out hit)){
-                print(hit.point);
+                
                 Agent.SetDestination(hit.point);
             }
+        }
+        
+        if(Agent.remainingDistance > Agent.stoppingDistance){
+            anim.SetBool("isRunning", true);
+        }   else{
+            anim.SetBool("isRunning", false);
         }
     }
 }

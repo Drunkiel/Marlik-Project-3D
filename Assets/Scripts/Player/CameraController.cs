@@ -3,17 +3,64 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public GameObject Player;
+    public Camera Cam;
 
-    public float TimeSmooth;
-    public float Xplus, Yplus, Zplus;
+    public int Max_FieldOfView, Min_FieldOfView;
     private Vector3 currVelocity;
+
+    Vector3 previousPosition;
+
+    void Start(){
+
+        Cam.transform.position = Player.transform.position;
+        Cam.transform.Translate(new Vector3(0, 2, -20));
+    }
 
     // Update is called once per frame
     void Update()
     {
+        MoveCamera();
+        RotateCamera();
+        // ScrollCamera();
+    }
 
-        Vector3 newCameraPosition = new Vector3(Player.transform.position.x + Xplus, Player.transform.position.y + Yplus, Player.transform.position.z + Zplus);
+    void MoveCamera(){
+
+        Cam.transform.position = Player.transform.position;
+        Cam.transform.Translate(new Vector3(0, 2, -20)); 
+    }
+    
+    void RotateCamera(){
+
+        if(Input.GetMouseButtonDown(1)){
+            previousPosition = Cam.ScreenToViewportPoint(Input.mousePosition);
+        }
+
+        if(Input.GetMouseButton(1)){
+            
+            Vector3 Direction = previousPosition - Cam.ScreenToViewportPoint(Input.mousePosition);
+            Cam.transform.Rotate(new Vector3(0, 1, 0), -Direction.x * 180, Space.World);
+
+            MoveCamera();
+
+            previousPosition = Cam.ScreenToViewportPoint(Input.mousePosition);
+        }
+    }
+
+    void ScrollCamera(){
         
-        transform.position = Vector3.SmoothDamp(transform.position, newCameraPosition, ref currVelocity, TimeSmooth);
+        if(Cam.fieldOfView != Max_FieldOfView || Cam.fieldOfView != Min_FieldOfView){
+
+            Cam.fieldOfView += Input.mouseScrollDelta.y;
+
+        }   else if(Cam.fieldOfView >= Max_FieldOfView){
+
+            Cam.fieldOfView = Max_FieldOfView;
+
+        }   else if(Cam.fieldOfView <= Min_FieldOfView){
+
+            Cam.fieldOfView = Min_FieldOfView;
+        }
+
     }
 }

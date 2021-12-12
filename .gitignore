@@ -54,7 +54,7 @@ ExportedObj/
 *.meta
 *.asset
 *.fbx
-*anim
+*.anim
 *.png
 *.jpg
 *.jpeg
