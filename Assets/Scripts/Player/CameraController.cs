@@ -5,7 +5,7 @@ public class CameraController : MonoBehaviour
     public GameObject Player;
     public Camera Cam;
 
-    public int Max_FieldOfView, Min_FieldOfView;
+    public float Zoom;
     private Vector3 currVelocity;
 
     Vector3 previousPosition;
@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
     {
         MoveCamera();
         RotateCamera();
-        // ScrollCamera();
+        ScrollCamera();
     }
 
     void MoveCamera(){
@@ -48,19 +48,18 @@ public class CameraController : MonoBehaviour
     }
 
     void ScrollCamera(){
-        
-        if(Cam.fieldOfView != Max_FieldOfView || Cam.fieldOfView != Min_FieldOfView){
 
-            Cam.fieldOfView += Input.mouseScrollDelta.y;
+        float zoomChangeAmount = 10f;
 
-        }   else if(Cam.fieldOfView >= Max_FieldOfView){
+        if(Input.mouseScrollDelta.y > 0){
 
-            Cam.fieldOfView = Max_FieldOfView;
+            Zoom += zoomChangeAmount * Time.deltaTime * 15;
+        }   else if(Input.mouseScrollDelta.y < 0){
 
-        }   else if(Cam.fieldOfView <= Min_FieldOfView){
-
-            Cam.fieldOfView = Min_FieldOfView;
+            Zoom -= zoomChangeAmount * Time.deltaTime * 15;
         }
 
+        Zoom = Mathf.Clamp(Zoom, 30f, 80f);
+        Cam.fieldOfView = Zoom;
     }
 }

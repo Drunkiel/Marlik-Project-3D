@@ -60,6 +60,7 @@ ExportedObj/
 *.jpeg
 *.controller
 *.prefab
+!.vscode/
 
 # Unity3D generated meta files
 *.pidb.meta
