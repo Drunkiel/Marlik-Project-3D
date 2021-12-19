@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
 
     Rigidbody rgBody;
     Animator anim;
+
+    public LayerMask NpcMask;
 
     void Start(){
         anim = GetComponent<Animator> ();
@@ -55,11 +58,20 @@ public class PlayerMovement : MonoBehaviour
             RaycastHit hit;
 
             if(Physics.Raycast(ray, out hit)){
-                
-                Agent.SetDestination(hit.point);
+                Collider[] hitNpc = Physics.OverlapSphere(hit.point, 1.0f, NpcMask);
+                foreach (Collider Npc in hitNpc)
+                {
+                    Npc.GetComponent<NpcDisplayMenu>().OpenMenu();   
+                }
+                if(EventSystem.current.currentSelectedGameObject != null){
+                    print("Ala");
+                }   else{
+                    Agent.SetDestination(hit.point);
+                }
             }
         }
         
+        //Animation
         if(Agent.remainingDistance > Agent.stoppingDistance){
             anim.SetBool("isRunning", true);
         }   else{

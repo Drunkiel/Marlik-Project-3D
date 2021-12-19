@@ -40,7 +40,7 @@ public class CameraController : MonoBehaviour
             
             Vector3 Direction = previousPosition - Cam.ScreenToViewportPoint(Input.mousePosition);
             Cam.transform.Rotate(new Vector3(0, 1, 0), -Direction.x * 180, Space.World);
-
+    
             MoveCamera();
 
             previousPosition = Cam.ScreenToViewportPoint(Input.mousePosition);
