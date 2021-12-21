@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     public Camera Cam;
     public NavMeshAgent Agent;
 
+    public Transform ArrowToPlace;
+
     Rigidbody rgBody;
     Animator anim;
 
@@ -38,10 +40,6 @@ public class PlayerMovement : MonoBehaviour
 
         rgBody.velocity = new Vector3(Direction.x * Speed * Time.deltaTime, 0, Direction.z * Speed * Time.deltaTime);
 
-        //Animation
-        anim.SetFloat("Speed", Mathf.Abs(Horizontal));
-        anim.SetFloat("Speed", Mathf.Abs(Vertical));
-
         //Player rotation
         if(Direction != Vector3.zero){
 
@@ -63,10 +61,12 @@ public class PlayerMovement : MonoBehaviour
                 {
                     Npc.GetComponent<NpcDisplayMenu>().OpenMenu();   
                 }
+
                 if(EventSystem.current.currentSelectedGameObject != null){
                     print("Ala");
                 }   else{
                     Agent.SetDestination(hit.point);
+                    ArrowToPlace.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);
                 }
             }
         }
@@ -76,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("isRunning", true);
         }   else{
             anim.SetBool("isRunning", false);
+            ArrowToPlace.position = new Vector3(ArrowToPlace.position.x, transform.position.y + 100, ArrowToPlace.position.z);
         }
     }
 }
