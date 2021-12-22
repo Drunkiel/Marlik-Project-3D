@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 
@@ -12,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public NavMeshAgent Agent;
 
     public Transform ArrowToPlace;
+    public Button ConvButton;
 
     Rigidbody rgBody;
     Animator anim;
@@ -59,7 +61,8 @@ public class PlayerMovement : MonoBehaviour
                 Collider[] hitNpc = Physics.OverlapSphere(hit.point, 1.0f, NpcMask);
                 foreach (Collider Npc in hitNpc)
                 {
-                    Npc.GetComponent<NpcDisplayMenu>().OpenMenu();   
+                    Npc.GetComponent<NpcDisplayMenu>().OpenMenu();
+                    ConvButton.onClick.AddListener(Npc.GetComponent<DialogTrigger>().TriggerDialog);  
                 }
 
                 if(EventSystem.current.currentSelectedGameObject != null){

@@ -7,6 +7,8 @@ public class DialogManager : MonoBehaviour
 {
     public TMP_Text NameText;
     public TMP_Text SentenceText;
+
+    public GameObject UI;
     private Queue<string> sentences;
 
     void Start(){
@@ -15,6 +17,9 @@ public class DialogManager : MonoBehaviour
     }
 
     public void StartDialog(Dialog dialog){
+
+        UI.SetActive(true);
+        
 
         print("Start conv" + dialog.name);
         NameText.text = dialog.name;
@@ -42,6 +47,7 @@ public class DialogManager : MonoBehaviour
     }
 
     void EndDialog(){
+        UI.SetActive(false);
         print("End dialog");
     }
 }
